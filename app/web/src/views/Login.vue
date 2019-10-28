@@ -138,7 +138,8 @@ export default {
 
         try {
             const { token } = await login(data)
-            console.log(token)
+            StorageSetter('token', token)
+            that.$router.push('/my')
         } catch(result) {
             const { message } = result.body.error
             this.showErrorMsg(null, message)
