@@ -1,0 +1,36 @@
+.counter {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  &-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    border-radius: 50%;
+    overflow: hidden;
+    &_active {
+      opacity: 0.9;
+    }
+  } 
+  &-num {
+    font-size: 32px;
+    width: 81px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    color: #000;
+  }
+}
+
+.reduce-btn {
+  border: 1px solid #ddd;
+  color: #ddd;
+}
+
+.add-btn {
+  background-color: rgb(228, 187, 126);
+  color: #000;
+}

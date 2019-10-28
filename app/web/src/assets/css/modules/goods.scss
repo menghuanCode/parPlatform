@@ -1,0 +1,35 @@
+.goods {
+    &-name {
+        font-weight: bold;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+    &-desc {
+        font-size: 12px;
+        color: #666;
+    }
+    &-info {
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #666;
+        &-l,&-r {
+        display: flex;
+        }
+    }
+    &-price {
+        margin-top: 12px;
+        font-size: 16px;
+        color: red;
+    }
+    &-discount {
+        font-size: 12px;
+        color: red;
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "login": {
+    "title": "欢迎登录小店",
+    "login": "登录",
+    "register": "立即注册",
+    "forgetPossword": "忘记密码",
+    "EnterUsername": "请输入账号",
+    "EnterAccount": "请输入账号",
+    "EnterPassword": "请输入密码",
+    "EnterSurePassword": "请输入确认密码",
+    "FAQ": "常见问题",
+    "PrivacyPolicy": "隐私政策",
+    "username": "名称",
+    "account": "账号",
+    "password": "密码",
+    "submit": "登入"
+  },
+  "register": {
+    "title": "注册小店账号",
+    "submit": "立即注册",
+    "nickname": "昵称",
+    "username": "名称",
+    "password": "密码",
+    "surePassword": "确认密码",
+    "SurePasswordMsg": "两次输入密码不一致",
+    "ErrorSepcial": "不能有特殊字符",
+    "ErrorStrong1": "必须长度为8-16个字符, 包含数字和字母",
+    "NicknameRequire": "昵称不能为空",
+    "UsernameRequire": "名称不能为空",
+    "PasswordNoSame": "两次输入密码不一致"
+  }
+}

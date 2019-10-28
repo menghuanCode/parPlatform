@@ -1,0 +1,32 @@
+{
+  "login": {
+    "title": "歡迎登錄小店",
+    "login": "登錄",
+    "register": "立即註冊",
+    "forgetPossword": "忘記密碼",
+    "EnterUsername": "請輸入帳號",
+    "EnterPassword": "請輸入密碼",
+    "EnterSurePassword": "請輸入確認密碼",
+    "FAQ": "常見問題",
+    "PrivacyPolicy": "隱私政策",
+    "username": "名稱",
+    "password": "密碼",
+    "submit": "登入"
+  },
+  "register": {
+    "title": "註冊小店帳號",
+    "submit": "立即註冊",
+    "nickname": "昵稱",
+    "username": "名稱",
+    "password": "密碼",
+    "surePassword": "確認密碼",
+    "SurePasswordMsg": "兩次輸入密碼不一致",
+    "ErrorSepcial": "不能有特殊字元",
+    "ErrorStrong1": "必須長度為8-16個字元, 包含數位和字母",
+    "NicknameRequire": "昵稱不能為空",
+    "UsernameRequire": "名稱不能為空",
+    "PasswordNoSame": "兩次輸入密碼不一致"
+  }
+}
+
+

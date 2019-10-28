@@ -1,0 +1,29 @@
+{
+  "login": {
+    "title": "Welcome to Xiaoshop",
+    "login": "login",
+    "register": "Create account",
+    "forgetPossword": "Forget password",
+    "EnterUsername": " Enter your account",
+    "EnterPassword": " Enter your password",
+    "FAQ": "FAQ",
+    "PrivacyPolicy": "Privacy Policy",
+    "username": "Account",
+    "password": "Password",
+    "submit": "Sign in"
+  },
+  "register": {
+    "title": "Create Account",
+    "submit": "Create Account",
+    "username": "Name",
+    "nickname": "Nickname",
+    "password": "Password",
+    "surePassword": "SurePassword",
+    "SurePasswordMsg": "Two inputs are not the same",
+    "ErrorSepcial": "Can't have special characters",
+    "ErrorStrong1": "Must be 8-16 characters long, containing digits and letters",
+    "NicknameRequire": "Nickname Require",
+    "UsernameRequire": "Name Require",
+    "PasswordNoSame": "Two inputs are not the same"
+  }
+}
