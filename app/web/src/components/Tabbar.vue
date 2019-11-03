@@ -64,10 +64,6 @@ export default {
 
 <style lang="scss" scoped="true">
     .tabbar {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        right: 0;
         border-top: thin solid #b0b0b0;
         height: 50px;
         width: 100%;

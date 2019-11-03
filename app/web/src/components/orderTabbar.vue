@@ -1,6 +1,6 @@
 <template>
     <div class="tabbar">
-        <div @click="route(item)" class="tabbar-item" :class="{active: item.to === active}" v-for="(item, index) in tabbar" :key="index">
+        <div @click="route(item)" class="tabbar-item" :class="{active: item.to === active.to}" v-for="(item, index) in tabbar" :key="index">
             <span class="tab-text">{{item.text}}</span>
         </div>
     </div>
@@ -11,7 +11,7 @@
 export default {
     data() {
         return {
-            active: 'all',
+            active: null,
             tabbar: [{
                 to: 'all',
                 text: '全部'
@@ -27,19 +27,24 @@ export default {
             }]
         }
     },
+    watch: {
+        active: function (newValue, oldValue) {
+            this.$emit('find', newValue.to)
+        }
+    },
     methods: {
         route: function (item) {
+            this.active = item
         }
+    },
+    created() {
+        this.active = this.tabbar[0]
     }
 }
 </script>
 
 <style lang="scss" scoped="true">
     .tabbar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        right: 0;
         border-bottom: thin solid #b0b0b0;
         height: 36px;
         width: 100%;
@@ -48,6 +53,7 @@ export default {
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        z-index: 1;
         &-item {
             position: relative;
             height: 100%;
