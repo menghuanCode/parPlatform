@@ -6,22 +6,22 @@ class UsersController extends Controller {
 
   constructor(ctx) {
     super(ctx)
-    this.User = ctx.model.Users
+    this.Users = ctx.model.Users
   }
 
   async find(ctx) {
-    ctx.body = await this.User.find()
+    ctx.body = await this.Users.find()
   }
 
   async findById(ctx) {
-    const user = await this.User.findById(ctx.params.id)
+    const user = await this.Users.findById(ctx.params.id)
     if (!user) { ctx.throw(404, '用户不存在') }
 
     ctx.body = user
   }
 
   async create(ctx) {
-    const User = this.User
+    const Users = this.Users
     const data = ctx.request.body
 
     ctx.validate({
@@ -30,18 +30,19 @@ class UsersController extends Controller {
     }, data)
 
     const { name } = data
-    const repeatedUser = await User.findOne({ name })
+    const repeatedUser = await Users.findOne({ name })
     if (repeatedUser) {
       ctx.throw(409, '用户已经存在')
     }
 
-    data.account = 10000 + await User.count() + ''
-    const user = await new User(data).save()
+    data.account = 10000 + await Users.count() + ''
+    const user = await new Users(data).save()
 
     ctx.body = user
   }
 
-  async update(ctx, next) {
+  async update(ctx) {
+    const Users = this.Users
     const data = ctx.request.body
     ctx.validate({
       name: { type: 'string', required: false },
@@ -51,19 +52,20 @@ class UsersController extends Controller {
     }, data)
 
     const { name } = data
-    const repeatedUser = await this.User.findOne({ name })
+    const repeatedUser = await Users.findOne({ name })
     if (repeatedUser) {
       ctx.throw(409, '用户名已存在')
     }
 
     delete data.account
-    const user = await this.User.findByIdAndUpdate(ctx.params.id, data)
+    const user = await Users.findByIdAndUpdate(ctx.params.id, data)
     if (!user) { ctx.throw(404, '用户不存在') }
     ctx.body = user
   }
 
   async destroy(ctx) {
-    const user = await this.User.findByIdAndRemove(ctx.params.id)
+    const Users = this.Users
+    const user = await Users.findByIdAndRemove(ctx.params.id)
     if (!user) { ctx.throw(404, '用户不存在') }
     ctx.status = 204
   }
@@ -74,13 +76,24 @@ class UsersController extends Controller {
       password: { type: 'string', required: true },
     })
 
-    const user = await this.User.findOne(ctx.request.body)
+    const Users = this.Users
+    const user = await Users.findOne(ctx.request.body)
     if (!user) { ctx.throw(401, ' 账号或密码不正确') }
     const { _id, account, name } = user
     const { secret } = this.config.jwt
     const token = this.app.jwt.sign({ _id, account, name }, secret, { expiresIn: '1d' })
     ctx.body = { token }
 
+  }
+
+  async findUserOrders(ctx) {
+    const Users = this.Users
+    const user = await Users.findOne(ctx.request.body)
+    if (!user) { ctx.throw(401, ' 账号或密码不正确') }
+    const { _id, account, name } = user
+    const { secret } = this.config.jwt
+    const token = this.app.jwt.sign({ _id, account, name }, secret, { expiresIn: '1d' })
+    ctx.body = { token }
   }
 }
 

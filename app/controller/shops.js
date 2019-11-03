@@ -21,24 +21,14 @@ class ShopsController extends Controller {
   async create() {
     const { ctx } = this
     const Shops = ctx.model.Shops
-    // ctx.verifyParams({
-    //   // name: { type: 'string', required: true },
-    //   // address: { type: 'string', required: true },
-    //   // phone: { type: 'string', required: true },
-    //   // avatar_url: { type: 'string', required: true },
-    //   // delivery_fee: { type: 'string', required: true },
-    //   // minimum_order_amount: { type: 'string', required: true },
-    //   // description: { type: 'string', required: false },
-    //   // slogan: { type: 'string', required: false },
-    //   // startTime: { type: 'string', required: false },
-    //   // endTime: { type: 'string', required: false },
-    //   // business_license: { type: 'string', required: false },
-    //   // service_license: { type: 'string', required: false },
-    // })
+    ctx.validate({
+      avatar_url: { type: 'string', required: true },
+      name: { type: 'string', required: true },
+      address: { type: 'string', required: true },
+      phone: { type: 'string', required: true },
+    })
 
     const shop = await new Shops(ctx.request.body).save()
-
-    console.log(shop)
     ctx.body = shop
 
   }

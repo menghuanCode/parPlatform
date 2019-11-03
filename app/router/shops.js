@@ -6,5 +6,5 @@ module.exports = app => {
   const { uploadAvatar } = controller.shops
 
   router.resources('shops', '/api/shops', controller.shops)
-  router.get('/api/shops/upload', uploadAvatar)
+  router.post('/api/shops/upload', uploadAvatar)
 }

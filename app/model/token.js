@@ -22,6 +22,7 @@ module.exports = app => {
   })
 
   TokenSchema.pre('save', function(next) {
+    console.log(this.isNew)
     if (this.isNew) {
       this.meta.createAt = this.meta.updateAt = Date.now()
     } else {
