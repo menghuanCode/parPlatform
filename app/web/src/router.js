@@ -18,9 +18,9 @@ const router = new Router({
         name: 'home',
         component: Home,
       }, {
-        path: '/category',
-        name: 'category',
-        component: () => import(/* webpackChunkName: "category" */ './views/Category.vue')
+        path: '/orders',
+        name: 'orders',
+        component: () => import(/* webpackChunkName: "orders" */ './views/Orders.vue')
       }, {
         path: '/category',
         name: 'category',
@@ -53,9 +53,9 @@ const router = new Router({
         name: 'shop',
         component: () => import(/* webpackChunkName: "shop" */ './views/shop/home.vue'),
       }, {
-        path: 'add',
+        path: 'create',
         name: 'createShop',
-        component: () => import(/* webpackChunkName: "createShop" */ './views/shop/add.vue'),
+        component: () => import(/* webpackChunkName: "createShop" */ './views/shop/create.vue'),
       }]
     },
     {

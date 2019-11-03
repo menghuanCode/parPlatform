@@ -1,7 +1,7 @@
 <template>
     <div class="tabbar">
         <div @click="route(item)" class="tabbar-item" :class="{active: item.to === $route.path}" v-for="(item, index) in tabbar" :key="index">
-            <i class="tab-icon iconfont" :class="[item.icon]"></i>
+            <div class="tab-icon"><component :is="item.svg" width="22" height="22"></component></div>
             <span class="tab-text">{{item.text}}</span>
         </div>
     </div>
@@ -11,24 +11,35 @@
 
 import { StorageGetter } from '@/libs/util.js'
 
+import Orders from '@/assets/svg/orders.svg'
+import OrdersFinder from '@/assets/svg/ordersFinder.svg'
+import Shop from '@/assets/svg/shop.svg'
+import Set from '@/assets/svg/set.svg'
+
 export default {
+    components: {
+        Orders,
+        OrdersFinder,
+        Shop,
+        Set
+    },
     data() {
         return {
             tabbar: [{
                 to: '/',
-                icon: 'icon-order',
+                svg: 'Orders',
                 text: '订单处理'
             }, {
                 to: '/orders',
-                icon: 'icon-orders',
+                svg: 'OrdersFinder',
                 text: '订单查询'
             }, {
                 to: '/shop',
-                icon: 'icon-mendian',
-                text: '管理'
+                svg: 'Shop',
+                text: '店铺'
             }, {
                 to: '/set',
-                icon: 'icon-set',
+                svg: 'Set',
                 text: '设置'
             }]
         }
@@ -51,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="true">
     .tabbar {
         position: fixed;
         left: 0;
@@ -83,6 +94,9 @@ export default {
             }
             &.active {
                 color: #845f3f;
+                path { // 在path改变颜色，通过fill属性
+                  fill: #845f3f;
+                }
             }
         }
     }
@@ -98,21 +112,15 @@ export default {
             align-items: center;
         }
         &-text {
-            display: inline-block;
-            margin-top: 4px;
             padding: 0;
             font-family: Arial,Helvetica,sans-serif;
-            font-size: 12px;
-            line-height: 14.4px;
+            font-size: 13px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 
-    .icon {
-        &-order {
-            font-size: 22px;
-        }
-        &-orders {
-            font-size: 36px;
-        }
-    }
 </style>

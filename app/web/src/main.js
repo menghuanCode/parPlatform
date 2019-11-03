@@ -6,7 +6,6 @@ import i18n from './i18n'
 
 import './plugins/weui'
 import './plugins/vueResource'
-import './plugins/validater'
 
 new Vue({
   store,
