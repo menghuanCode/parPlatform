@@ -3,13 +3,13 @@
 const { Controller } = require('egg')
 
 class ShopsController extends Controller {
-  async index() {
+  async find() {
     const { ctx } = this
     const Shops = ctx.model.Shops
     ctx.body = await Shops.find()
   }
 
-  async show() {
+  async findById() {
     const { ctx } = this
     const Shops = ctx.model.Shops
     const shop = await Shops.findById(ctx.params.id)
@@ -30,7 +30,6 @@ class ShopsController extends Controller {
 
     const shop = await new Shops(ctx.request.body).save()
     ctx.body = shop
-
   }
 
   async uploadAvatar() {

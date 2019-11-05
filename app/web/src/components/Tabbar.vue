@@ -14,14 +14,14 @@ import { StorageGetter } from '@/libs/util.js'
 import Orders from '@/assets/svg/orders.svg'
 import OrdersFinder from '@/assets/svg/ordersFinder.svg'
 import Shop from '@/assets/svg/shop.svg'
-import Set from '@/assets/svg/set.svg'
+import My from '@/assets/svg/my.svg'
 
 export default {
     components: {
         Orders,
         OrdersFinder,
         Shop,
-        Set
+        My,
     },
     data() {
         return {
@@ -34,13 +34,13 @@ export default {
                 svg: 'OrdersFinder',
                 text: '订单查询'
             }, {
-                to: '/shop',
+                to: '/manage',
                 svg: 'Shop',
                 text: '店铺'
             }, {
-                to: '/set',
-                svg: 'Set',
-                text: '设置'
+                to: '/my',
+                svg: 'My',
+                text: '我的'
             }]
         }
     },
@@ -83,6 +83,9 @@ export default {
             justify-content: flex-start;
             text-decoration: none;
             color: #999;
+            path { // 在path改变颜色，通过fill属性
+                fill: #999;
+            }
             &:after {
                 content: "";
                 position: absolute;
