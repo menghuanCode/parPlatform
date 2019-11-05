@@ -22,18 +22,24 @@ const router = new Router({
         name: 'orders',
         component: () => import(/* webpackChunkName: "orders" */ './views/Orders.vue')
       }, {
-        path: '/category',
-        name: 'category',
-        component: () => import(/* webpackChunkName: "category" */ './views/Category.vue')
-      }, {
-        path: '/category',
-        name: 'category',
-        component: () => import(/* webpackChunkName: "category" */ './views/Category.vue')
+        path: '/manage',
+        name: 'manage',
+        component: () => import(/* webpackChunkName: "manage" */ './views/Manage.vue')
       }, {
         path: '/my',
         name: 'my',
         component: () => import(/* webpackChunkName: "my" */ './views/My.vue')
       }]
+    },
+    {
+      path: '/createShop',
+      name: 'createShop',
+      component: () => import(/* webpackChunkName: "createShop" */ './views/CreateShop.vue')
+    },
+    {
+      path: '/msgSuccess',
+      name: 'msgSuccess',
+      component: () => import(/* webpackChunkName: "msgSuccess" */ './views/MsgSuccess.vue')
     },
     {
       path: '/search',
@@ -52,10 +58,6 @@ const router = new Router({
         path: '/',
         name: 'shop',
         component: () => import(/* webpackChunkName: "shop" */ './views/shop/home.vue'),
-      }, {
-        path: 'create',
-        name: 'createShop',
-        component: () => import(/* webpackChunkName: "createShop" */ './views/shop/create.vue'),
       }]
     },
     {

@@ -16,36 +16,36 @@
             </div>
         </div>
     </div>
-    <div class="weui-form__control-area mt-0">
+    <div class="weui-form__control-area mt-0 mb-0">
       <div class="weui-cells__group weui-cells__group_form">
         <!-- <div class="weui-cells__title">基本信息</div> -->
         <div class="weui-cells weui-cells_form">
           <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
             <div class="weui-cell__bd">
-                <input name="name" v-model.trim="form.name" class="weui-input" placeholder="店铺名称">
+                <input name="name" v-model.trim="form.name" class="weui-input" @input="formInput" placeholder="店铺名称">
             </div>
           </div>
           <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">地址</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" v-model.trim="form.address" placeholder="店铺地址">
+                <input class="weui-input" @input="formInput" v-model.trim="form.address" placeholder="店铺地址">
             </div>
           </div>
           <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">联系电话</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" v-model.trim="form.phone"  placeholder="联系电话" type="number" pattern="[0-9]*">
+                <input class="weui-input" @input="formInput" v-model.trim="form.phone"  placeholder="联系电话" type="number" pattern="[0-9]*">
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="weui-form__tips-area">
-      <p class="weui-form__tips">
-        表单页提示，居中对齐
+    <div class="weui-form__tips-area">
+      <p class="weui-form__tips errorMsg">
+        {{ errorMsg && errorMsg.value  }}
       </p>
-    </div> -->
+    </div>
     <div class="weui-form__opr-area">
       <a class="weui-btn weui-btn_primary"  @click="submit">确定</a>
     </div>
@@ -56,6 +56,7 @@
 <script>
 
 import { createShop, shopsUpload } from "@/libs/http.js"
+import { stat } from 'fs';
 
 export default {
   name: "shopAddForm",
@@ -64,6 +65,7 @@ export default {
   },
   data() {
     return {
+      errorMsg: null,
       form: {
         avatar_url: '',
         name: '',
@@ -72,8 +74,10 @@ export default {
       }
     }
   },
-
   methods: {
+    async formInput() {
+      this.errorMsg = null
+    },
     async uploadAvatar(event) {
       let file = event.target.files[0]
       let formData = new FormData()
@@ -83,8 +87,22 @@ export default {
       this.form.avatar_url = url
     },
     async submit() {
-      console.log(this.form)
-      let data = await createShop(this.form)
+      let errorMsg = this.$validate({
+        avatar_url: { nickname: '头像' },
+        name: { nickname: '名称' },
+        address: { nickname: '地址' },
+        phone: { type: 'tel', nickname: '联系电话' }
+      }, this.form)
+
+     if(errorMsg) {
+       this.errorMsg = errorMsg
+       return
+     }
+
+      let res = await createShop(this.form)
+      if(res.status === 200) {
+        this.$router.push('msgSuccess', )
+      }
     }
   }
 }
@@ -133,5 +151,14 @@ export default {
     left: 0;
     background-size: cover;
     z-index: 1;
+  }
+
+  .errorMsg {
+    color: red;
+    text-align: left;
+    padding: 0 30px;
+    ::placeholder {
+      color: red !important;
+    }
   }
 </style>
