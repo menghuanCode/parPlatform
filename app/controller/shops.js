@@ -31,16 +31,10 @@ class ShopsController extends Controller {
       phone: { type: 'string', required: true },
     })
 
-    const user = await this.Users.findById(ctx.state.user._id)
-
-    if (user.shop) {
-      ctx.throw('409', '一个用户只能创建一个店铺')
-    }
-
+    const userid = ctx.state.user._id
     const { avatar_url, name, address, phone } = ctx.request.body
-    const shop = await new this.Shops({ avatar_url, name, address, phone, user: user._id }).save()
-
-    await this.Users.findByIdAndUpdate(user._id, { shop: shop._id })
+    const shop = await new this.Shops({ avatar_url, name, address, phone, user: userid }).save()
+    await this.Users.findByIdAndUpdate(userid, { shop: shop._id })
     ctx.body = shop
   }
 
