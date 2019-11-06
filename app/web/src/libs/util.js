@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 let prefix = 'xiao_shop_'
 
 export function StorageGetter (key) {
@@ -8,20 +10,17 @@ export function StorageSetter (key, val) {
     return localStorage.setItem(prefix + key, val)
 }
 
-export function parseUrl(url = ''){
-    let result = {}
-    let search = url.split('?')[1]
-    let query = search.split('&')
-    query.map(v => {
-        let [ key, value ] = v.split('=')
-        result[key] = value
-    })
-
-    return result
+export function parseQuery(url = ''){
+    return _.chain(url)
+    .replace('?', '') // a=b454&c=dhjjh&f=g6hksdfjlksd
+    .split('&') // ["a=b454","c=dhjjh","f=g6hksdfjlksd"]
+    .map(_.partial(_.split, _, '=', 2)) // [["a","b454"],["c","dhjjh"],["f","g6hksdfjlksd"]]
+    .fromPairs() // {"a":"b454","c":"dhjjh","f":"g6hksdfjlksd"}
+    .value()
 }
 
 export default {
     StorageGetter,
     StorageSetter,
-    parseUrl
+    parseQuery
 }

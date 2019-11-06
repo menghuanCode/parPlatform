@@ -55,8 +55,7 @@
 
 import { login } from "@/libs/http.js"
 
-import { StorageSetter, parseUrl } from "@/libs/util.js"
-import { decode } from 'punycode';
+import { StorageSetter, parseQuery } from "@/libs/util.js"
 
 export default {
   name: 'login',
@@ -83,12 +82,6 @@ export default {
               text: 'Englist'
           }]
       }
-  },
-  created() {
-    if(location.search) {
-        let result = parseUrl(location.href)
-        this.redirect = decodeURIComponent(result.redirect)
-    }
   },
   methods: {
       formInput(name) {
@@ -131,7 +124,16 @@ export default {
         try {
             const token = await login(data)
             StorageSetter('token', token)
-            that.$router.push(this.back || '/')
+
+            let query = parseQuery(location.search) 
+            console.log(query)
+
+            if(query.redirect) {
+                that.$router.push(decodeURIComponent(query.redirect))
+            } else {
+                this.$router.push('/')
+            }
+
         } catch(error) {
             console.log(error)
             let { message } = error 

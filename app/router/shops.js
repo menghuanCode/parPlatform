@@ -4,15 +4,13 @@ module.exports = app => {
 
   const { router, controller, middleware, jwt } = app
   const { shops } = controller
-  const { checkOwner } = middleware
+  const { checkOwner, isValid } = middleware
 
-  const { find, findById, create, update, destroy, orders } = shops
+  const { find, findById, create, uploadAvatar } = shops
 
   router.get('/api/shops', find)
-  router.get('/api/shops/:id', findById)
+  router.get('/api/shops/:id', isValid(), findById)
   router.post('/api/shops', jwt, create)
-  // router.patch('/api/shops/:id', jwt, checkOwner(), update)
-  // router.delete('/api/shops/:id', jwt, checkOwner(), destroy)
-  // router.get('/api/shops/:id/orders', orders)
+  router.post('/api/shops/upload', jwt, uploadAvatar)
 
 }

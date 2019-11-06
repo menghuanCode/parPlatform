@@ -3,16 +3,20 @@
 const { Controller } = require('egg')
 
 class ShopsController extends Controller {
+  constructor(ctx) {
+    super(ctx)
+    this.Users = ctx.model.Users
+    this.Shops = ctx.model.Shops
+  }
+
   async find() {
     const { ctx } = this
-    const Shops = ctx.model.Shops
-    ctx.body = await Shops.find()
+    ctx.body = await this.Shops.find()
   }
 
   async findById() {
     const { ctx } = this
-    const Shops = ctx.model.Shops
-    const shop = await Shops.findById(ctx.params.id)
+    const shop = await this.Shops.findById(ctx.params.id)
     if (!shop) { ctx.throw(404, '店鋪不存在') }
 
     ctx.body = shop
@@ -20,7 +24,6 @@ class ShopsController extends Controller {
 
   async create() {
     const { ctx } = this
-    const Shops = ctx.model.Shops
     ctx.validate({
       avatar_url: { type: 'string', required: true },
       name: { type: 'string', required: true },
@@ -28,7 +31,16 @@ class ShopsController extends Controller {
       phone: { type: 'string', required: true },
     })
 
-    const shop = await new Shops(ctx.request.body).save()
+    const user = await this.Users.findById(ctx.state.user._id)
+
+    if (user.shop) {
+      ctx.throw('409', '一个用户只能创建一个店铺')
+    }
+
+    const { avatar_url, name, address, phone } = ctx.request.body
+    const shop = await new this.Shops({ avatar_url, name, address, phone, user: user._id }).save()
+
+    await this.Users.findByIdAndUpdate(user._id, { shop: shop._id })
     ctx.body = shop
   }
 

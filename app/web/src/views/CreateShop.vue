@@ -55,7 +55,7 @@
 
 <script>
 
-import { createShop, shopsUpload } from "@/libs/http.js"
+import { createShop, shopUpload } from "@/libs/http.js"
 import { stat } from 'fs';
 
 
@@ -86,18 +86,8 @@ export default {
       let formData = new FormData()
       formData.append('file', file, file.name)
 
-      let config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-      this.$http.post('http://localhost:7001/api/shops/upload', formData, config)
-        .then(res => {
-          console.log(res)
-        })
-
-      // let { url } = await shopsUpload(formData)
-      // this.form.avatar_url = url
+      let { url } = await shopUpload(formData)
+      this.form.avatar_url = url
 
     },
     async submit() {
@@ -115,7 +105,9 @@ export default {
 
       let res = await createShop(this.form)
       if(res.status === 200) {
-        this.$router.push('msgSuccess', )
+        this.$router.repleace({
+          path: '/manage'
+        })
       }
     }
   }

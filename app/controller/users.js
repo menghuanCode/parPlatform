@@ -60,7 +60,7 @@ class UsersController extends Controller {
 
     const Users = this.Users
     const user = await Users.findOne(ctx.request.body)
-    if (!user) { ctx.throw(401, ' 账号或密码不正确') }
+    if (!user) { ctx.throw(403, ' 账号或密码不正确') }
     const { _id, account, name } = user
     const { secret } = this.config.jwt
     const token = this.app.jwt.sign({ _id, account, name }, secret, { expiresIn: '1d' })

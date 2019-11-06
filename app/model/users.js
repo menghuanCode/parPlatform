@@ -9,7 +9,7 @@ module.exports = app => {
     name: { type: String, required: true },
     account: { type: String, required: true },
     password: { type: String, required: true, select: false },
-    shop: { type: String, select: true },
+    shop: { type: Schema.Types.ObjectId, ref: 'Shops' },
     orders: { type: [{ type: Schema.Types.ObjectId, ref: 'Orders' }], select: false },
   })
 
