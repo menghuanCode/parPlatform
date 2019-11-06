@@ -5,7 +5,8 @@ import router from './router'
 import i18n from './i18n'
 
 import './plugins/weui'
-import './plugins/vueResource'
+// import './plugins/vueResource'
+import './plugins/axios'
 import './plugins/validator'
 
 new Vue({

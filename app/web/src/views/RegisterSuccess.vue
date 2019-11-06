@@ -17,8 +17,6 @@
 
 <script>
 
-import { register } from "@/libs/service.js"
-
 export default {
   name: 'RegisterSuccess',
   data() {

@@ -58,6 +58,7 @@
 import { createShop, shopsUpload } from "@/libs/http.js"
 import { stat } from 'fs';
 
+
 export default {
   name: "shopAddForm",
   components: {
@@ -74,7 +75,9 @@ export default {
       }
     }
   },
-  methods: {
+  created() {
+  },
+  methods: { 
     async formInput() {
       this.errorMsg = null
     },
@@ -83,8 +86,19 @@ export default {
       let formData = new FormData()
       formData.append('file', file, file.name)
 
-      let { url } = await shopsUpload(formData)
-      this.form.avatar_url = url
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      this.$http.post('http://localhost:7001/api/shops/upload', formData, config)
+        .then(res => {
+          console.log(res)
+        })
+
+      // let { url } = await shopsUpload(formData)
+      // this.form.avatar_url = url
+
     },
     async submit() {
       let errorMsg = this.$validate({

@@ -55,12 +55,14 @@
 
 import { login } from "@/libs/http.js"
 
-import { StorageSetter } from "@/libs/util.js"
+import { StorageSetter, parseUrl } from "@/libs/util.js"
+import { decode } from 'punycode';
 
 export default {
   name: 'login',
   data() {
       return {
+          back: '',
           accountError: false,
           passwordError: false,
           error: false,
@@ -81,6 +83,12 @@ export default {
               text: 'Englist'
           }]
       }
+  },
+  created() {
+    if(location.search) {
+        let result = parseUrl(location.href)
+        this.redirect = decodeURIComponent(result.redirect)
+    }
   },
   methods: {
       formInput(name) {
@@ -109,12 +117,6 @@ export default {
             return
         }
 
-        // validater({
-        //     account: { type: String, required: true },
-        //     password: { type: String, required: true },
-        //     surePassword: { type: String, required: true }
-        // }, this.data)
-
         if(!(this.verifyaccount() && this.verifyPassword())) {
             return;
         }
@@ -125,23 +127,14 @@ export default {
         }
 
         let that = this
-        // login(data).then(function (res) {
-        //     if(res.status === 200 && res.statusText === "OK") {
-        //         StorageSetter('token', res.data.token)
-        //         that.$router.push('/my')
-        //     }
-        // })
-        // .catch(error => {
-        //     that.msg = error.response.data.message
-        //     this.error = true;
-        // })
 
         try {
-            const { token } = await login(data)
+            const token = await login(data)
             StorageSetter('token', token)
-            that.$router.push('/my')
-        } catch(result) {
-            const { message } = result.body.error
+            that.$router.push(this.back || '/')
+        } catch(error) {
+            console.log(error)
+            let { message } = error 
             this.showErrorMsg(null, message)
         }
 
@@ -151,7 +144,7 @@ export default {
           if(!account) {
             this.accountError = true
             this.error = true
-            this.msg = this.$t("login.Enteraccount")
+            this.msg = this.$t("login.EnterAccount")
               return
           } 
           return true
