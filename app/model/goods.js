@@ -7,11 +7,9 @@ module.exports = app => {
   const GoodsSchema = new Schema({
     avatar_url: { type: String },
     name: { type: String, required: true },
-    description: { type: String, select: false },
-    categories: { type: String },
+    desc: { type: String, required: true },
     price: { type: String, required: true },
-    box_price: { type: String, required: true },
-    stock: { type: String, required: true },
+    shopId: { type: String, required: true },
   })
 
   return mongoose.model('Goods', GoodsSchema)

@@ -1,14 +1,13 @@
 <template>
   <div class="page">
-    <!-- <div class="view"> -->
-      <!-- <navbar>店铺管理</navbar>
+    <div class="view">
+      <navbar>店铺管理</navbar>
       <turnover :income="'0.00'" :order="0"></turnover>
-      <manage></manage> -->
-    <!-- </div> -->
+      <manage id="5dc858adb1f7164260ec084b"></manage>
+    </div>
     <!-- <div class="view" v-if="false"></div>   -->
-    <emptyPage>
-        <div class="weui-btn weui-btn_primary" @click="$router.push('/createShop')">立即开店</div>
-    </emptyPage>  
+    <!-- <emptyPage>
+    </emptyPage>   -->
   </div>
 </template>
 
@@ -29,8 +28,10 @@ export default {
   },
   data() {
     return {
-
+      shop: {},
     }
+  },
+  created() {
   },
   methods: {
     getOrders(params) {

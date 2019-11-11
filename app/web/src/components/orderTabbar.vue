@@ -28,7 +28,7 @@ export default {
         }
     },
     watch: {
-        active: function (newValue, oldValue) {
+        active: function (newValue) {
             this.$emit('find', newValue.to)
         }
     },

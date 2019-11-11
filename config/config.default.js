@@ -5,9 +5,9 @@ const path = require('path')
 const os = require('os')
 
 /**
- * @param {Egg.EggAppInfo} appInfo app info
+ * @param {Egg.EggAppInfo} app app info
  */
-module.exports = appInfo => {
+module.exports = app => {
   /**
    * built-in config
    * @type {Egg.EggAppConfig}
@@ -15,7 +15,7 @@ module.exports = appInfo => {
   const config = exports = {};
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1571341485885_488';
+  config.keys = app.name + '_1571341485885_488';
 
   // add your middleware config here
   config.middleware = [
@@ -50,7 +50,7 @@ module.exports = appInfo => {
 
   config.multipart = {
     mode: 'file',
-    tmpdir: path.join(os.tmpdir(), 'egg-multipart-tmp', appInfo.name),
+    tmpdir: path.join(os.tmpdir(), 'egg-multipart-tmp', app.name),
     cleanSchedule: {
       // run tmpdir clean job on every day 04:30 am
       // cron style see https://github.com/eggjs/egg-schedule#cron-style-scheduling
@@ -85,6 +85,12 @@ module.exports = appInfo => {
     widelyUndefined: true,
   }
 
+  config.static = {
+    dir: [{
+      prefix: '/app',
+      dir: path.join(app.baseDir, 'app/web/dist'),
+    }],
+  }
 
   // add your user config here
   const prefix = 'https://api.weixin.qq.com/cgi-bin/'
@@ -93,10 +99,10 @@ module.exports = appInfo => {
     // myAppName: 'egg',
     root: path.join(__dirname, '..'),
     wx: {
-      appID: 'wxe7bfea126adbf8d6',
-      appSecret: '4200f37bf6ed3a4d9759ee4a1d24fc8c',
-      // appID: 'wxf8b485f5bae501b3',
-      // appSecret: '4bedda091fd7144ef1c77efadab57c92',
+      // appID: 'wxe7bfea126adbf8d6',
+      // appSecret: '4200f37bf6ed3a4d9759ee4a1d24fc8c',
+      appID: 'wxf8b485f5bae501b3',
+      appSecret: '4bedda091fd7144ef1c77efadab57c92',
       // baseUrl: "http://xiao.frp.xiaoshop.top",
       token: 'xiaoshop',
     },

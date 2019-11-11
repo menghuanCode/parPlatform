@@ -52,10 +52,7 @@
 
 <script>
 
-
-import { login } from "@/libs/http.js"
-
-import { StorageSetter, parseQuery } from "@/libs/util.js"
+import { StorageGetter, parseToken, StorageSetter, parseQuery } from "@/libs/util.js"
 
 export default {
   name: 'login',
@@ -122,24 +119,22 @@ export default {
         let that = this
 
         try {
-            const token = await login(data)
+            const token = await this.$Api.login(data)
             StorageSetter('token', token)
-
-            let query = parseQuery(location.search) 
-            console.log(query)
-
-            if(query.redirect) {
-                that.$router.push(decodeURIComponent(query.redirect))
-            } else {
-                this.$router.push('/')
-            }
+            this.redirect()
 
         } catch(error) {
-            console.log(error)
             let { message } = error 
             this.showErrorMsg(null, message)
         }
-
+      },
+      redirect() {
+        let query = parseQuery(location.search) 
+        if(query.redirect) {
+            that.$router.push(decodeURIComponent(query.redirect))
+        } else {
+            this.$router.push('/')
+        }
       },
       verifyaccount() {
           let account = this.account

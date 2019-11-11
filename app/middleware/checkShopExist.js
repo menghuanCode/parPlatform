@@ -2,9 +2,9 @@
 
 module.exports = (options, app) => {
   return async function checkShopExist(ctx, next) {
-    const Users = ctx.model.Users
-    const user = await Users.findById(ctx.params.id)
-    if (!user) { ctx.throw(404, '店铺不存在') }
+    const Shops = ctx.model.Shops
+    const shop = await Shops.findById(ctx.params.id)
+    if (!shop) { ctx.throw(404, '店铺不存在') }
     await next()
   }
 }

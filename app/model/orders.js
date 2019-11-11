@@ -6,36 +6,14 @@ module.exports = app => {
 
   const OrdersSchema = new Schema({
     __v: { type: Number, select: false },
-    shop: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'Shop' }],
-    },
-    user: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    },
+    status: { type: [ String, Number ], enum: [ 0, 1, 2, 3, 4 ], default: 0, required: true },
+    shop: { type: Schema.Types.ObjectId, ref: 'Shops' },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
     goods: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Goods' }],
     },
-    meta: {
-      createAt: {
-        type: Date,
-        default: Date.now(),
-      },
-      updateAt: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
-  })
+  }, { timestamps: true })
 
-  OrdersSchema.pre('save', function(next) {
-    console.log(this.isNew)
-    if (this.isNew) {
-      this.meta.createAt = this.meta.updateAt = Date.now()
-    } else {
-      this.meta.updateAt = Date.now()
-    }
-    next()
-  })
 
   return model('Orders', OrdersSchema)
 }

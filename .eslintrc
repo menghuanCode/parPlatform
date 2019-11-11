@@ -2,6 +2,7 @@
   "extends": "eslint-config-egg",
   "rules": {
     "semi":"off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "newline-per-chained-call": "off"
   }
 }

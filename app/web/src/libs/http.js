@@ -1,6 +1,5 @@
 'use strict'
 import axios from 'axios'
-import { async } from 'q'
 
 const root = 'http://localhost:7001/api'
 
@@ -25,12 +24,27 @@ export async function createShop(data) {
   return res
 }
 
+export async function getShopInfo(id) {
+  let res = await axios.get(api.shop + '/' + id)
+  return res
+}
+
 async function upload(url, formData) {
   const config = {
     headers: { 'Content-Type': 'multipart/form-data' }
   }
   return await axios.post(url, formData, config)
 }
+
+const Api = {
+  login,
+  shopUpload,
+  createShop,
+  getShopInfo,
+  upload
+}
+
+export default Api
 
 
 // import Vue from 'vue'

@@ -56,7 +56,6 @@
 <script>
 
 import { createShop, shopUpload } from "@/libs/http.js"
-import { stat } from 'fs';
 
 
 export default {
@@ -106,7 +105,7 @@ export default {
       let res = await createShop(this.form)
       if(res.status === 200) {
         this.$router.repleace({
-          path: '/manage'
+          path: '/wechat/shop'
         })
       }
     }

@@ -18,7 +18,6 @@
 <script>
 
 import { createShop, shopsUpload } from "@/libs/http.js"
-import { stat } from 'fs';
 
 export default {
   name: "shopAddForm",

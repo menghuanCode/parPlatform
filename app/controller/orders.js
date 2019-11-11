@@ -7,83 +7,70 @@ class OrdersController extends Controller {
   constructor(ctx) {
     super(ctx)
     this.Orders = ctx.model.Orders
+    this.Shops = ctx.model.Shops
   }
 
   async find(ctx) {
-    ctx.body = await this.Orders.find()
+    const { per_page = 10 } = ctx.query
+    const page = Math.max(ctx.query.page * 1, 1) - 1
+    const prePage = Math.max(per_page * 1, 1)
+    const q = new RegExp(ctx.query.q)
+    ctx.body = await this.Orders
+      .find({ $or: [{ status: q }] })
+      .limit(prePage)
+      .skip(page * prePage)
   }
 
   async findById(ctx) {
-    const Order = await this.Orders.findById(ctx.params.id)
-    if (!Order) { ctx.throw(404, '订单不存在') }
-
-    ctx.body = Order
+    const { fields = '' } = ctx.query
+    const order = await this.Orders.findById(ctx.params.id).select('+shop+user+goods').populate('shop user goods')
+    ctx.body = order
   }
 
   async create(ctx) {
     const Orders = this.Orders
-    const data = ctx.request.body
+    const Shops = ctx.model.Shops
+    const Goods = ctx.module.Goods
 
     ctx.validate({
-      name: { type: 'string', required: true },
-      password: { type: 'string', required: true },
-    }, data)
+      shop: { type: 'string', required: true },
+      goods: { type: [ 'string', 'array' ], required: true },
+    })
 
-    const { name } = data
-    const repeatedOrder = await Orders.findOne({ name })
-    if (repeatedOrder) {
-      ctx.throw(409, '订单已经存在')
+    const { shop: shopId, goods: goodsId } = ctx.request.body
+    const shop = await Shops.find({ _id: shopId })
+    const goods = await Goods.find({ shop: shopId })
+
+    if (!shop) {
+      ctx.throw(404, '店铺不存在')
     }
 
-    data.account = 10000 + await Orders.count() + ''
-    const Order = await new Orders(data).save()
-
-    ctx.body = Order
+    const order = await new Orders({ user: ctx.user.state._id, shop, goods }).save()
+    ctx.body = order
   }
 
   async update(ctx) {
     const Orders = this.Orders
-    const data = ctx.request.body
     ctx.validate({
       name: { type: 'string', required: false },
       password: { type: 'string', required: false },
-      role: { type: 'int', required: false },
-      shop_id: { type: 'string', required: false },
-    }, data)
+    })
 
-    const { name } = data
-    const repeatedOrder = await Orders.findOne({ name })
-    if (repeatedOrder) {
-      ctx.throw(409, '订单名已存在')
-    }
-
-    delete data.account
-    const Order = await Orders.findByIdAndUpdate(ctx.params.id, data)
-    if (!Order) { ctx.throw(404, '订单不存在') }
-    ctx.body = Order
+    const { name, password } = ctx.request.body
+    const user = await Orders.findByIdAndUpdate(ctx.params.id, { name, password })
+    ctx.body = user
   }
 
   async destroy(ctx) {
     const Orders = this.Orders
-    const Order = await Orders.findByIdAndRemove(ctx.params.id)
-    if (!Order) { ctx.throw(404, '用户不存在') }
+    const user = await Orders.findByIdAndRemove(ctx.params.id)
     ctx.status = 204
   }
 
-  async login(ctx) {
-    ctx.validate({
-      account: { type: 'string', required: true },
-      password: { type: 'string', required: true },
-    })
-
-    const Orders = this.Orders
-    const Order = await Orders.findOne(ctx.request.body)
-    if (!Order) { ctx.throw(401, ' 账号或密码不正确') }
-    const { _id, account, name } = Order
-    const { secret } = this.config.jwt
-    const token = this.app.jwt.sign({ _id, account, name }, secret, { expiresIn: '1d' })
-    ctx.body = { token }
-
+  async everyDayCount(ctx) {
+    const Orders = ctx.model.Orders
+    const orders = await Orders.find({ createdAt: { $gt: new Date('2019-11-9') } })
+    ctx.body = orders
   }
 }
 

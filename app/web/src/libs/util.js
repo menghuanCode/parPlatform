@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import jwtDecode from 'jwt-decode'
 
 let prefix = 'xiao_shop_'
 
@@ -11,12 +11,12 @@ export function StorageSetter (key, val) {
 }
 
 export function parseQuery(url = ''){
-    return _.chain(url)
-    .replace('?', '') // a=b454&c=dhjjh&f=g6hksdfjlksd
-    .split('&') // ["a=b454","c=dhjjh","f=g6hksdfjlksd"]
-    .map(_.partial(_.split, _, '=', 2)) // [["a","b454"],["c","dhjjh"],["f","g6hksdfjlksd"]]
-    .fromPairs() // {"a":"b454","c":"dhjjh","f":"g6hksdfjlksd"}
-    .value()
+    return url
+}
+
+export function parseToken(token) {
+    let data = jwtDecode(token)
+    return data
 }
 
 export default {

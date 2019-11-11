@@ -21,8 +21,6 @@
 
 <script>
 
-import { throttle } from 'lodash'
-
 export default {
     data () {
         return {
@@ -47,9 +45,7 @@ export default {
             this.value = ''
             this.isPanel = false
             this.searching = false
-        },
-        searchApi: throttle(function() {
-        }, 2000)
+        }
     }
 }
 </script>

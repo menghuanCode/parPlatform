@@ -5,9 +5,8 @@ import router from './router'
 import i18n from './i18n'
 
 import './plugins/weui'
-import './plugins/axios'
+import './plugins/axios/index.js'
 import './plugins/validator'
-import './plugins/lodash'
 
 new Vue({
   store,

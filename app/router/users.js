@@ -4,16 +4,16 @@ module.exports = app => {
 
   const { router, controller, middleware, jwt } = app
   const { users } = controller
-  const { checkOwner, isValid, checkUserExist, checkRepeatUsername } = middleware
+  const { checkOwner, checkUserExist, checkUserShopExist, checkRepeatUsername } = middleware
 
-  const { find, findById, create, update, destroy, login, orders } = users
+  const { find, findById, create, update, destroy, login, getUserShop, getUserOrders } = users
 
   router.get('/api/users', find)
-  router.get('/api/users/:id', isValid(), checkUserExist(), findById)
+  router.get('/api/users/:id', checkUserExist(), findById)
   router.post('/api/users', checkRepeatUsername(), create)
   router.post('/api/users/login', login)
-  router.patch('/api/users/:id', jwt, isValid(), checkOwner(), checkRepeatUsername(), checkUserExist(), update)
-  router.delete('/api/users/:id', jwt, isValid(), checkOwner(), checkUserExist(), destroy)
-  router.get('/api/users/:id/orders', orders)
-
+  router.patch('/api/users/:id', jwt, checkOwner(), checkRepeatUsername(), checkUserExist(), update)
+  router.delete('/api/users/:id', jwt, checkOwner(), checkUserExist(), destroy)
+  router.get('/api/users/:id/shop', getUserShop)
+  router.get('/api/users/:id/orders', getUserOrders)
 }
